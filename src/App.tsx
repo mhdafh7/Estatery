@@ -11,8 +11,8 @@ type Props = {
   state: string;
   zipcode: string;
   price: string;
-  bedrooms: number;
-  bathrooms: number;
+  bedroom: number;
+  bathroom: number;
   image: string;
 };
 
@@ -37,35 +37,24 @@ function App() {
         ) : isError ? (
           <p>{(error as Error).message}</p>
         ) : (
-          rentals.map(
-            ({
-              id,
-              streetAddress,
-              cityName,
-              county,
-              state,
-              zipcode,
-              price,
-              bedrooms,
-              bathrooms,
-              image,
-            }: Props) => {
+          <div className="grid grid-cols-3 gap-5 mt-5">
+            {rentals.map((rental: Props) => {
               return (
                 <Card
-                  key={id}
-                  streetAddress={streetAddress}
-                  cityName={cityName}
-                  county={county}
-                  state={state}
-                  zipcode={zipcode}
-                  price={price}
-                  bedrooms={bedrooms}
-                  bathrooms={bathrooms}
-                  image={image}
+                  key={rental.id}
+                  streetAddress={rental.streetAddress}
+                  cityName={rental.cityName}
+                  county={rental.county}
+                  state={rental.state}
+                  zipcode={rental.zipcode}
+                  price={rental.price}
+                  bedroom={(rental.bedroom % 9)+1}
+                  bathroom={(rental.bathroom % 9)+1}
+                  image={rental.image}
                 />
               );
-            }
-          )
+            })}
+          </div>
         )}
       </section>
     </main>
