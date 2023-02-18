@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .nav-item {
+    @apply px-3 py-2 hover:bg-violet-200 hover:text-violet-700 rounded-sm transition-colors;
+  }
+}
+
+:root{
+    @apply bg-violet-50;
+}
