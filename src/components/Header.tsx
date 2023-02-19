@@ -1,10 +1,10 @@
-import { HomeIcon } from "./Svgs";
+import { HomeModernIcon } from "@heroicons/react/20/solid";
 
 const Header = () => {
   return (
     <header className="flex items-center gap-14 py-8 px-8 mb-2 shadow-sm">
       <span className="flex gap-2 items-center font-bold text-violet-700">
-        <HomeIcon />
+        <HomeModernIcon className="w-6 h-6" />
         <h3 className="text-gray-900">Estatery</h3>
       </span>
       <div className="flex justify-between flex-1">

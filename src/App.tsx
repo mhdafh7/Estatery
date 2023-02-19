@@ -7,9 +7,8 @@ type Props = {
   id: string;
   streetAddress: string;
   cityName: string;
-  county: string;
   state: string;
-  zipcode: string;
+  zipcode: number;
   price: string;
   bedroom: number;
   bathroom: number;
@@ -44,12 +43,11 @@ function App() {
                   key={rental.id}
                   streetAddress={rental.streetAddress}
                   cityName={rental.cityName}
-                  county={rental.county}
                   state={rental.state}
                   zipcode={rental.zipcode}
                   price={rental.price}
-                  bedroom={(rental.bedroom % 9)+1}
-                  bathroom={(rental.bathroom % 9)+1}
+                  bedroom={rental.bedroom}
+                  bathroom={rental.bathroom}
                   image={rental.image}
                 />
               );
