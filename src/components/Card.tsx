@@ -1,15 +1,6 @@
 import { RectangleStackIcon, Square3Stack3DIcon } from '@heroicons/react/20/solid'
+import { Rent } from '../types/types'
 
-type Props = {
-  streetAddress: string;
-  cityName: string;
-  state: string;
-  zipcode: number;
-  price: string;
-  bedroom: number;
-  bathroom: number;
-  image: string;
-};
 const Card = ({
   streetAddress,
   cityName,
@@ -19,10 +10,10 @@ const Card = ({
   bedroom,
   bathroom,
   image,
-}: Props) => {
+}: Rent) => {
 
   return (
-    <article className="flex flex-col overflow-hidden bg-white rounded-md shadow-sm max-h-64">
+    <article className="flex flex-col overflow-hidden bg-white rounded-md shadow-sm max-h-64 w-full">
       <img src={image} alt="image" className="max-h-28 object-cover" />
       <div className="flex flex-col gap-2 py-2 px-3">
         <p className="text-xs text-gray-600">

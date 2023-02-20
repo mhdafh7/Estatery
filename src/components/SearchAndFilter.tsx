@@ -1,34 +1,72 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { getRentals } from "../api/rentalApi";
 import Dropdown from "./Dropdown";
-
-// type Props = {
-//   id: string;
-//   streetAddress: string;
-//   cityName: string;
-//   state: string;
-//   zipcode: number;
-//   price: string;
-//   bedroom: number;
-//   bathroom: number;
-//   image: string;
-// };
+import { Rent } from "../types/types";
+import { useContext, useState } from "react";
+import { ParamContext } from "../Context/ParamContext";
 
 const SearchAndFilter = () => {
-  const { isSuccess, data: rentals } = useQuery(
-    ["rentals"],
-    () => getRentals(),
+  const { state, setState, propertyType, setPropertyType, price, setPrice } =
+    useContext(ParamContext);
+
+  const {
+    isSuccess,
+    refetch,
+    data: rentals,
+  } = useQuery<Rent[], Error>(
+    ["rentals", state, propertyType],
+    () => getRentals(["rentals", state, propertyType], state, propertyType),
     {
       keepPreviousData: true,
+      enabled: true,
     }
   );
-  // const [stuff, setStuff] = useState([]);
-  let locationList;
-  if (isSuccess) {
-    locationList = rentals.map((rental: any) => rental.state);
-    console.log(locationList);
-  }
+  console.log(rentals);
+
+  const STATE_LIST = [
+    "MO",
+    "MI",
+    "WI",
+    "OH",
+    "CA",
+    "GA",
+    "IL",
+    "DC",
+    "TX",
+    "AR",
+    "PA",
+    "FL",
+    "VA",
+    "MN",
+    "NY",
+    "AL",
+    "CT",
+    "OR",
+    "AK",
+    "AZ",
+    "WA",
+    "LA",
+    "NV",
+    "NC",
+    "CO",
+    "OK",
+    "KY",
+    "MA",
+    "IA",
+    "TN",
+  ].sort();
+  const PROPERTY_TYPE_LIST = [
+    "Vacation Rentals",
+    "Retail Spaces",
+    "Mobile Homes",
+    "Storage Spaces",
+    "Apartments Office Spaces",
+    "Multi-family homes",
+    "Townhouses/Condos",
+    "Single-family homes",
+    "Industrial Spaces",
+  ];
+  const PRICE_LIST = ["under $1000", "$1000-$3000", "$3000-$7000", "$7000+"];
 
   return (
     <section className="mt-8 flex flex-col gap-8 rounded-md">
@@ -43,9 +81,15 @@ const SearchAndFilter = () => {
       <div className="bg-white py-4 px-3">
         <ul className="flex items-center justify-between">
           <li className="px-4 flex flex-col gap-2">
-            <p className="text-gray-500 text-xs font-semibold">Location</p>
+            <p className="text-gray-500 text-xs font-semibold">State</p>
             <h5 className="font-bold">
-              {isSuccess && <Dropdown list={locationList} />}
+              {isSuccess && (
+                <Dropdown
+                  list={STATE_LIST}
+                  default={"Select state"}
+                  setParam={setState}
+                />
+              )}
             </h5>
           </li>
           <li className="px-4 border-l-2 border-l-gray-200 flex flex-col gap-2">
@@ -54,14 +98,35 @@ const SearchAndFilter = () => {
           </li>
           <li className="px-4 border-l-2 border-l-gray-200 flex flex-col gap-2">
             <p className="text-gray-500 text-xs font-semibold">Price</p>
-            <h5 className="font-bold">select</h5>
+            <h5 className="font-bold">
+              {isSuccess && (
+                <Dropdown
+                  list={PRICE_LIST}
+                  default={"Select range"}
+                  setParam={setPrice}
+                />
+              )}
+            </h5>
           </li>
           <li className="px-4 border-l-2 border-l-gray-200 flex flex-col gap-2">
             <p className="text-gray-500 text-xs font-semibold">Property Type</p>
-            <h5 className="font-bold">select</h5>
+            <h5 className="font-bold">
+              {isSuccess && (
+                <Dropdown
+                  list={PROPERTY_TYPE_LIST}
+                  default={"Select type"}
+                  setParam={setPropertyType}
+                />
+              )}
+            </h5>
           </li>
           <li className="px-4 border-l-2 border-l-gray-200 flex flex-col gap-2">
-            <button className="font-semibold rounded-md px-4 py-2 bg-violet-500 text-white">
+            <button
+              onClick={() => {
+                refetch;
+              }}
+              className="font-semibold rounded-md px-4 py-2 bg-violet-500 text-white"
+            >
               search
             </button>
           </li>
